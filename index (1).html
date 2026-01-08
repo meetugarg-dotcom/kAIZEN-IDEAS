@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaizen Ideas - Continuous Improvement</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 40px;
+            min-height: 500px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            color: var(--dark);
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #64748b;
+            margin-bottom: 40px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group label .required {
+            color: var(--danger);
+            margin-left: 3px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .conditional-input {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .conditional-input.active {
+            display: block;
+        }
+
+        .ideas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .idea-card {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .idea-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .idea-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .idea-meta {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+        .idea-description {
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        .badge-pending { background: #fef3c7; color: #92400e; }
+        .badge-approved { background: #d1fae5; color: #065f46; }
+        .badge-completed { background: #dbeafe; color: #1e40af; }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: slideIn 0.3s;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid var(--danger);
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left: 4px solid var(--primary);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .settings-card {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .settings-card h3 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        .notification-status.active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .notification-status.inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .ideas-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+            opacity: 0.9;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <span style="font-size: 32px;">💡</span>
+                <span>Kaizen Ideas</span>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="showPage('home')">🏠 Home</button>
+                <button class="btn btn-secondary" onclick="showPage('submit')">✨ Submit Idea</button>
+                <button class="btn btn-secondary" onclick="showPage('ideas')">📋 All Ideas</button>
+                <button class="btn btn-secondary" onclick="showPage('dashboard')">📊 Dashboard</button>
+                <button class="btn btn-primary" onclick="showPage('settings')">⚙️ Settings</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Home Page -->
+            <div id="homePage" class="page active">
+                <div class="hero">
+                    <h1>Welcome to Kaizen Ideas</h1>
+                    <p>Continuous Improvement Platform - Share Your Ideas & Drive Change</p>
+                    
+                    <div class="stats">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalIdeas">0</div>
+                            <div class="stat-label">Total Ideas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="approvedIdeas">0</div>
+                            <div class="stat-label">Approved</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="completedIdeas">0</div>
+                            <div class="stat-label">Completed</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" style="padding: 15px 40px; font-size: 18px;" onclick="showPage('submit')">
+                        🚀 Submit Your Idea Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- Submit Idea Page -->
+            <div id="submitPage" class="page">
+                <h2 style="margin-bottom: 30px; color: var(--dark);">✨ Submit Your Improvement Idea</h2>
+                
+                <div id="alertContainer"></div>
+
+                <form id="ideaForm">
+                    <div class="section-title">💡 Idea Details</div>
+
+                    <div class="form-group">
+                        <label for="ideaTitle">Idea Title <span class="required">*</span></label>
+                        <input type="text" id="ideaTitle" required placeholder="Give your idea a clear, descriptive title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ideaDescription">Detailed Description <span class="required">*</span></label>
+                        <textarea id="ideaDescription" rows="5" required placeholder="Describe your idea in detail..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ideaCategory">Category <span class="required">*</span></label>
+                            <select id="ideaCategory" required onchange="toggleCategoryOther()">
+                                <option value="">Select Category</option>
+                                <option value="Cost Reduction">Cost Reduction</option>
+                                <option value="Quality Improvement">Quality Improvement</option>
+                                <option value="Process Optimization">Process Optimization</option>
+                                <option value="Safety">Safety</option>
+                                <option value="Environment">Environment</option>
+                                <option value="Customer Service">Customer Service</option>
+                                <option value="Innovation">Innovation</option>
+                                <option value="NA">NA / Other</option>
+                            </select>
+                            <input type="text" id="categoryOther" class="conditional-input" placeholder="Please specify category">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ideaPriority">Priority</label>
+                            <select id="ideaPriority">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                                <option value="Critical">Critical</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expectedImpact">Expected Impact <span class="required">*</span></label>
+                        <select id="expectedImpact" required onchange="toggleImpactOther()">
+                            <option value="">Select Expected Impact</option>
+                            <option value="Cost Savings (< ₹1L)">Cost Savings (< ₹1L)</option>
+                            <option value="Cost Savings (₹1L - ₹5L)">Cost Savings (₹1L - ₹5L)</option>
+                            <option value="Cost Savings (> ₹5L)">Cost Savings (> ₹5L)</option>
+                            <option value="Time Reduction (< 10%)">Time Reduction (< 10%)</option>
+                            <option value="Time Reduction (10-25%)">Time Reduction (10-25%)</option>
+                            <option value="Time Reduction (> 25%)">Time Reduction (> 25%)</option>
+                            <option value="Quality Improvement">Quality Improvement</option>
+                            <option value="Safety Enhancement">Safety Enhancement</option>
+                            <option value="Customer Satisfaction">Customer Satisfaction</option>
+                            <option value="Employee Satisfaction">Employee Satisfaction</option>
+                            <option value="Other">Other (Please specify)</option>
+                        </select>
+                        <input type="text" id="impactOther" class="conditional-input" placeholder="Please specify the expected impact">
+                        <small>Example: "Expected to save 2 hours daily in processing time" or "Reduce defects by 15%"</small>
+                    </div>
+
+                    <div class="section-title">👤 Your Information</div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="submitterName">Your Name <span class="required">*</span></label>
+                            <input type="text" id="submitterName" required placeholder="Full name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="employeeId">Employee ID <span class="required">*</span></label>
+                            <input type="text" id="employeeId" required placeholder="Your employee ID">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="submitterEmail">Email <span class="required">*</span></label>
+                            <input type="email" id="submitterEmail" required placeholder="your.email@company.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="submitterDepartment">Department</label>
+                            <input type="text" id="submitterDepartment" placeholder="Your department name">
+                            <small>Example: Manufacturing, Quality Assurance, Operations, etc.</small>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="businessType">Business Type <span class="required">*</span></label>
+                            <input type="text" id="businessType" required placeholder="Enter your business type (e.g., Manufacturing, Service, IT, etc.)">
+                            <small>Example: Manufacturing, Healthcare, IT/Technology, Retail, Finance, etc.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="city">City <span class="required">*</span></label>
+                            <input type="text" id="city" required placeholder="Your city">
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">Clear Form</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Submit Idea 🚀</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- All Ideas Page -->
+            <div id="ideasPage" class="page">
+                <h2 style="margin-bottom: 30px; color: var(--dark);">📋 All Ideas</h2>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap;">
+                    <select id="filterStatus" onchange="filterIdeas()" style="padding: 10px; border-radius: 8px; border: 2px solid var(--border);">
+                        <option value="">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                    <select id="filterDepartment" onchange="filterIdeas()" style="padding: 10px; border-radius: 8px; border: 2px solid var(--border);">
+                        <option value="">All Departments</option>
+                    </select>
+                    <select id="filterCity" onchange="filterIdeas()" style="padding: 10px; border-radius: 8px; border: 2px solid var(--border);">
+                        <option value="">All Cities</option>
+                    </select>
+                    <select id="filterBusinessType" onchange="filterIdeas()" style="padding: 10px; border-radius: 8px; border: 2px solid var(--border);">
+                        <option value="">All Business Types</option>
+                    </select>
+                </div>
+
+                <div id="ideasList" class="ideas-grid"></div>
+            </div>
+
+            <!-- Dashboard Page -->
+            <div id="dashboardPage" class="page">
+                <h2 style="margin-bottom: 30px; color: var(--dark);">📊 Dashboard & Analytics</h2>
+                
+                <div class="stats">
+                    <div class="stat-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="stat-number" id="dashTotal">0</div>
+                        <div class="stat-label">Total Ideas</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <div class="stat-number" id="dashPending">0</div>
+                        <div class="stat-label">Pending Review</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <div class="stat-number" id="dashApproved">0</div>
+                        <div class="stat-label">Approved</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <div class="stat-number" id="dashCompleted">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px; padding: 30px; background: var(--light); border-radius: 12px;">
+                    <h3 style="margin-bottom: 20px;">🏢 Business Type Breakdown</h3>
+                    <div id="businessTypeStats"></div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 30px; background: var(--light); border-radius: 12px;">
+                    <h3 style="margin-bottom: 20px;">🏙️ City-wise Distribution</h3>
+                    <div id="cityStats"></div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 30px; background: var(--light); border-radius: 12px;">
+                    <h3 style="margin-bottom: 20px;">📈 Department Breakdown</h3>
+                    <div id="departmentStats"></div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 30px; background: var(--light); border-radius: 12px;">
+                    <h3 style="margin-bottom: 20px;">🏆 Top Contributors</h3>
+                    <div id="topContributors"></div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settingsPage" class="page">
+                <h2 style="margin-bottom: 30px; color: var(--dark);">⚙️ Email Notification Settings</h2>
+                
+                <div id="settingsAlertContainer"></div>
+
+                <div class="settings-card">
+                    <h3>🔔 Email Notifications</h3>
+                    <p style="color: #64748b; margin-bottom: 20px;">
+                        Configure email notifications to receive alerts when new ideas are submitted.
+                    </p>
+
+                    <div class="form-group">
+                        <label for="adminEmails">Admin Email Addresses <span class="required">*</span></label>
+                        <textarea id="adminEmails" rows="4" placeholder="admin@company.com
+manager@company.com
+hr@company.com"></textarea>
+                        <small>Enter multiple email addresses (one per line). All emails will receive notifications for new idea submissions.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailJsServiceId">EmailJS Service ID <span class="required">*</span></label>
+                        <input type="text" id="emailJsServiceId" placeholder="service_xxxxxxx">
+                        <small>Get this from your EmailJS dashboard</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailJsTemplateId">EmailJS Template ID <span class="required">*</span></label>
+                        <input type="text" id="emailJsTemplateId" placeholder="template_xxxxxxx">
+                        <small>Create a template in EmailJS for idea notifications</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailJsPublicKey">EmailJS Public Key <span class="required">*</span></label>
+                        <input type="text" id="emailJsPublicKey" placeholder="Your public key">
+                        <small>Find this in your EmailJS account settings</small>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="saveEmailSettings()">💾 Save Settings</button>
+                    <button class="btn btn-secondary" onclick="testEmailNotification()">📧 Send Test Email</button>
+
+                    <div id="notificationStatus"></div>
+                </div>
+
+                <div class="settings-card">
+                    <h3>📖 Setup Instructions</h3>
+                    <ol style="color: #475569; line-height: 2; margin-left: 20px;">
+                        <li><strong>Sign up for EmailJS:</strong> Visit <a href="https://www.emailjs.com" target="_blank" style="color: var(--primary);">emailjs.com</a> and create a free account</li>
+                        <li><strong>Add Email Service:</strong> Connect your email provider (Gmail, Outlook, etc.)</li>
+                        <li><strong>Create Email Template:</strong> Use these variables in your template:
+                            <ul style="margin-top: 10px; margin-left: 20px;">
+                                <li><code>{{idea_title}}</code> - Idea title</li>
+                                <li><code>{{submitter_name}}</code> - Submitter name</li>
+                                <li><code>{{submitter_email}}</code> - Submitter email</li>
+                                <li><code>{{employee_id}}</code> - Employee ID</li>
+                                <li><code>{{department}}</code> - Department</li>
+                                <li><code>{{city}}</code> - City</li>
+                                <li><code>{{business_type}}</code> - Business type</li>
+                                <li><code>{{category}}</code> - Idea category</li>
+                                <li><code>{{priority}}</code> - Priority level</li>
+                                <li><code>{{expected_impact}}</code> - Expected impact</li>
+                                <li><code>{{description}}</code> - Idea description</li>
+                                <li><code>{{admin_email}}</code> - Admin email</li>
+                            </ul>
+                        </li>
+                        <li><strong>Copy Credentials:</strong> Get Service ID, Template ID, and Public Key from EmailJS</li>
+                        <li><strong>Save Settings:</strong> Enter credentials above and click "Save Settings"</li>
+                        <li><strong>Test:</strong> Click "Send Test Email" to verify configuration</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>💡 Kaizen Ideas - Continuous Improvement Platform</p>
+            <p style="font-size: 12px; margin-top: 10px;">All data is stored locally in your browser | Email notifications powered by EmailJS</p>
+        </div>
+    </div>
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <script>
+        // Initialize local storage
+        if (!localStorage.getItem('kaizenIdeas')) {
+            localStorage.setItem('kaizenIdeas', JSON.stringify([]));
+        }
+        if (!localStorage.getItem('emailSettings')) {
+            localStorage.setItem('emailSettings', JSON.stringify({}));
+        }
+
+        // Load email settings
+        function loadEmailSettings() {
+            const settings = JSON.parse(localStorage.getItem('emailSettings'));
+            if (settings.adminEmails) document.getElementById('adminEmails').value = settings.adminEmails.join('\n');
+            if (settings.serviceId) document.getElementById('emailJsServiceId').value = settings.serviceId;
+            if (settings.templateId) document.getElementById('emailJsTemplateId').value = settings.templateId;
+            if (settings.publicKey) document.getElementById('emailJsPublicKey').value = settings.publicKey;
+            updateNotificationStatus();
+        }
+
+        // Save email settings
+        function saveEmailSettings() {
+            const adminEmailsText = document.getElementById('adminEmails').value.trim();
+            const adminEmails = adminEmailsText.split('\n').map(e => e.trim()).filter(e => e);
+            
+            const settings = {
+                adminEmails: adminEmails,
+                serviceId: document.getElementById('emailJsServiceId').value,
+                templateId: document.getElementById('emailJsTemplateId').value,
+                publicKey: document.getElementById('emailJsPublicKey').value
+            };
+
+            if (adminEmails.length === 0 || !settings.serviceId || !settings.templateId || !settings.publicKey) {
+                showSettingsAlert('⚠️ Please fill in all fields', 'error');
+                return;
+            }
+
+            // Validate email formats
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const invalidEmails = adminEmails.filter(email => !emailRegex.test(email));
+            if (invalidEmails.length > 0) {
+                showSettingsAlert(`⚠️ Invalid email format: ${invalidEmails.join(', ')}`, 'error');
+                return;
+            }
+
+            localStorage.setItem('emailSettings', JSON.stringify(settings));
+            showSettingsAlert(`✅ Email settings saved successfully! ${adminEmails.length} recipient(s) configured.`, 'success');
+            updateNotificationStatus();
+        }
+
+        // Update notification status
+        function updateNotificationStatus() {
+            const settings = JSON.parse(localStorage.getItem('emailSettings'));
+            const statusDiv = document.getElementById('notificationStatus');
+            
+            if (settings.adminEmails && settings.adminEmails.length > 0 && settings.serviceId && settings.templateId && settings.publicKey) {
+                statusDiv.innerHTML = `
+                    <div class="notification-status active">
+                        ✅ Email Notifications Active (${settings.adminEmails.length} recipient${settings.adminEmails.length > 1 ? 's' : ''})
+                    </div>
+                    <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px;">
+                        <strong style="color: var(--dark); display: block; margin-bottom: 8px;">📧 Recipients:</strong>
+                        <ul style="color: #475569; line-height: 1.8; margin-left: 20px;">
+                            ${settings.adminEmails.map(email => `<li>${email}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            } else {
+                statusDiv.innerHTML = `
+                    <div class="notification-status inactive">
+                        ❌ Email Notifications Not Configured
+                    </div>
+                `;
+            }
+        }
+
+        // Send email notification
+        async function sendEmailNotification(ideaData) {
+            const settings = JSON.parse(localStorage.getItem('emailSettings'));
+            
+            if (!settings.adminEmails || settings.adminEmails.length === 0 || !settings.serviceId || !settings.templateId || !settings.publicKey) {
+                console.log('Email notifications not configured');
+                return false;
+            }
+
+            try {
+                emailjs.init(settings.publicKey);
+                
+                const templateParams = {
+                    idea_title: ideaData.title,
+                    submitter_name: ideaData.submitterName,
+                    submitter_email: ideaData.email,
+                    employee_id: ideaData.employeeId,
+                    department: ideaData.department || 'N/A',
+                    city: ideaData.city,
+                    business_type: ideaData.businessType,
+                    category: ideaData.category,
+                    priority: ideaData.priority,
+                    expected_impact: ideaData.expectedImpact,
+                    description: ideaData.description,
+                    admin_email: settings.adminEmails[0] // Primary recipient
+                };
+
+                // Send to all admin emails
+                const emailPromises = settings.adminEmails.map(adminEmail => {
+                    const params = {...templateParams, admin_email: adminEmail};
+                    return emailjs.send(settings.serviceId, settings.templateId, params);
+                });
+
+                await Promise.all(emailPromises);
+                return true;
+            } catch (error) {
+                console.error('Email notification failed:', error);
+                return false;
+            }
+        }
+
+        // Test email notification
+        async function testEmailNotification() {
+            const testData = {
+                title: 'Test Idea - Email Configuration',
+                submitterName: 'Test User',
+                email: 'test@example.com',
+                employeeId: 'TEST001',
+                department: 'IT',
+                city: 'Test City',
+                businessType: 'Testing',
+                category: 'Innovation',
+                priority: 'Medium',
+                expectedImpact: 'Testing email notifications',
+                description: 'This is a test email to verify that your EmailJS configuration is working correctly.'
+            };
+
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="loading"></span> Sending...';
+            btn.disabled = true;
+
+            const success = await sendEmailNotification(testData);
+            
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+
+            if (success) {
+                showSettingsAlert('✅ Test email sent successfully! Check your inbox.', 'success');
+            } else {
+                showSettingsAlert('❌ Failed to send test email. Please check your settings.', 'error');
+            }
+        }
+
+        // Toggle category other input
+        function toggleCategoryOther() {
+            const select = document.getElementById('ideaCategory');
+            const otherInput = document.getElementById('categoryOther');
+            
+            if (select.value === 'NA') {
+                otherInput.classList.add('active');
+                otherInput.required = true;
+            } else {
+                otherInput.classList.remove('active');
+                otherInput.required = false;
+                otherInput.value = '';
+            }
+        }
+
+        // Toggle impact other input
+        function toggleImpactOther() {
+            const select = document.getElementById('expectedImpact');
+            const otherInput = document.getElementById('impactOther');
+            
+            if (select.value === 'Other') {
+                otherInput.classList.add('active');
+                otherInput.required = true;
+            } else {
+                otherInput.classList.remove('active');
+                otherInput.required = false;
+                otherInput.value = '';
+            }
+        }
+
+        // Page navigation
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageName + 'Page').classList.add('active');
+
+            if (pageName === 'ideas') {
+                displayIdeas();
+                populateFilters();
+            } else if (pageName === 'dashboard') {
+                displayDashboard();
+            } else if (pageName === 'home') {
+                updateHomeStats();
+            } else if (pageName === 'settings') {
+                loadEmailSettings();
+            }
+        }
+
+        // Form submission
+        document.getElementById('ideaForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loading"></span> Submitting...';
+            submitBtn.disabled = true;
+
+            const categorySelect = document.getElementById('ideaCategory').value;
+            const categoryOther = document.getElementById('categoryOther').value;
+            const finalCategory = categorySelect === 'NA' ? `NA - ${categoryOther}` : categorySelect;
+
+            const impactSelect = document.getElementById('expectedImpact').value;
+            const impactOther = document.getElementById('impactOther').value;
+            const finalImpact = impactSelect === 'Other' ? `Other - ${impactOther}` : impactSelect;
+
+            const idea = {
+                id: Date.now(),
+                title: document.getElementById('ideaTitle').value,
+                description: document.getElementById('ideaDescription').value,
+                category: finalCategory,
+                priority: document.getElementById('ideaPriority').value,
+                expectedImpact: finalImpact,
+                submitterName: document.getElementById('submitterName').value,
+                employeeId: document.getElementById('employeeId').value,
+                email: document.getElementById('submitterEmail').value,
+                department: document.getElementById('submitterDepartment').value,
+                businessType: document.getElementById('businessType').value,
+                city: document.getElementById('city').value,
+                status: 'Pending',
+                submittedDate: new Date().toISOString(),
+                likes: 0
+            };
+
+            // Send email notification
+            const emailSent = await sendEmailNotification(idea);
+
+            // Save to localStorage
+            let ideas = JSON.parse(localStorage.getItem('kaizenIdeas'));
+            ideas.push(idea);
+            localStorage.setItem('kaizenIdeas', JSON.stringify(ideas));
+
+            const settings = JSON.parse(localStorage.getItem('emailSettings'));
+            const recipientCount = settings.adminEmails ? settings.adminEmails.length : 0;
+            
+            if (emailSent) {
+                showAlert(`✅ Idea submitted successfully! Email notification sent to ${recipientCount} recipient${recipientCount > 1 ? 's' : ''}.`, 'success');
+            } else {
+                showAlert('✅ Idea submitted successfully! (Email notification not configured)', 'info');
+            }
+
+            document.getElementById('ideaForm').reset();
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+
+            setTimeout(() => {
+                showPage('ideas');
+            }, 2000);
+        });
+
+        // Display ideas
+        function displayIdeas() {
+            const ideas = JSON.parse(localStorage.getItem('kaizenIdeas'));
+            const container = document.getElementById('ideasList');
+
+            if (ideas.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <h3>No ideas yet</h3>
+                        <p>Be the first to submit an improvement idea!</p>
+                        <button class="btn btn-primary" onclick="showPage('submit')" style="margin-top: 20px;">Submit First Idea</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = ideas.reverse().map(idea => `
+                <div class="idea-card">
+                    <div class="idea-title">${escapeHtml(idea.title)}</div>
+                    <div class="idea-meta">
+                        👤 ${escapeHtml(idea.submitterName)} | 🆔 ${escapeHtml(idea.employeeId)}<br>
+                        🏢 ${escapeHtml(idea.department || 'N/A')} | 💼 ${escapeHtml(idea.businessType)}<br>
+                        🏙️ ${escapeHtml(idea.city)} | 📅 ${new Date(idea.submittedDate).toLocaleDateString()}
+                    </div>
+                    <div class="idea-description">${escapeHtml(idea.description.substring(0, 120))}${idea.description.length > 120 ? '...' : ''}</div>
+                    <div style="margin-top: 10px;">
+                        <div style="font-size: 12px; color: #475569; margin-bottom: 8px;">
+                            <strong>Expected Impact:</strong> ${escapeHtml(idea.expectedImpact)}
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge badge-${idea.status.toLowerCase()}">${idea.status}</span>
+                        ${idea.category ? `<span class="badge" style="background: #dbeafe; color: #1e40af;">${escapeHtml(idea.category)}</span>` : ''}
+                        ${idea.priority ? `<span class="badge" style="background: #fef3c7; color: #92400e;">${escapeHtml(idea.priority)}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate filter dropdowns
+        function populateFilters() {
+            const ideas = JSON.parse(localStorage.getItem('kaizenIdeas'));
+            
+            const departments = [...new Set(ideas.map(i => i.department).filter(d => d))];
+            const deptFilter = document.getElementById('filterDepartment');
+            deptFilter.innerHTML = '<option value="">All Departments</option>' + 
+                departments.map(d => `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join('');
+
+            const cities = [...new Set(ideas.map(i => i.city).filter(c => c))];
+            const cityFilter = document.getElementById('filterCity');
+            cityFilter.innerHTML = '<option value="">All Cities</option>' + 
+                cities.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+
+            const businessTypes = [...new Set(ideas.map(i => i.businessType).filter(b => b))];
+            const btFilter = document.getElementById('filterBusinessType');
+            btFilter.innerHTML = '<option value="">All Business Types</option>' + 
+                businessTypes.map(b => `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`).join('');
+        }
+
+        // Filter ideas
+        function filterIdeas() {
+            const statusFilter = document.getElementById('filterStatus').value;
+            const deptFilter = document.getElementById('filterDepartment').value;
+            const cityFilter = document.getElementById('filterCity').value;
+            const btFilter = document.getElementById('filterBusinessType').value;
+            const ideas = JSON.parse(localStorage.getItem('kaizenIdeas'));
+            const container = document.getElementById('ideasList');
+
+            let filteredIdeas = ideas;
+
+            if (statusFilter) filteredIdeas = filteredIdeas.filter(i => i.status === statusFilter);
+            if (deptFilter) filteredIdeas = filteredIdeas.filter(i => i.department === deptFilter);
+            if (cityFilter) filteredIdeas = filteredIdeas.filter(i => i.city === cityFilter);
+            if (btFilter) filteredIdeas = filteredIdeas.filter(i => i.businessType === btFilter);
+
+            if (filteredIdeas.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔍</div><h3>No ideas found</h3><p>Try adjusting your filters</p></div>';
+                return;
+            }
+
+            container.innerHTML = filteredIdeas.reverse().map(idea => `
+                <div class="idea-card">
+                    <div class="idea-title">${escapeHtml(idea.title)}</div>
+                    <div class="idea-meta">
+                        👤 ${escapeHtml(idea.submitterName)} | 🆔 ${escapeHtml(idea.employeeId)}<br>
+                        🏢 ${escapeHtml(idea.department || 'N/A')} | 💼 ${escapeHtml(idea.businessType)}<br>
+                        🏙️ ${escapeHtml(idea.city)} | 📅 ${new Date(idea.submittedDate).toLocaleDateString()}
+                    </div>
+                    <div class="idea-description">${escapeHtml(idea.description.substring(0, 120))}${idea.description.length > 120 ? '...' : ''}</div>
+                    <div style="margin-top: 10px;">
+                        <div style="font-size: 12px; color: #475569; margin-bottom: 8px;">
+                            <strong>Expected Impact:</strong> ${escapeHtml(idea.expectedImpact)}
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge badge-${idea.status.toLowerCase()}">${idea.status}</span>
+                        ${idea.category ? `<span class="badge" style="background: #dbeafe; color: #1e40af;">${escapeHtml(idea.category)}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Display dashboard
+        function displayDashboard() {
+            const ideas = JSON.parse(localStorage.getItem('kaizenIdeas'));
+
+            const total = ideas.length;
+            const pending = ideas.filter(i => i.status === 'Pending').length;
+            const approved = ideas.filter(i => i.status === 'Approved').length;
+            const completed = ideas.filter(i => i.status === 'Completed').length;
+
+            document.getElementById('dashTotal').textContent = total;
+            document.getElementById('dashPending').textContent = pending;
+            document.getElementById('dashApproved').textContent = approved;
+            document.getElementById('dashCompleted').textContent = completed;
+
+            // Business Type stats
+            const btStats = {};
+            ideas.forEach(idea => {
+                if (idea.businessType) {
+                    btStats[idea.businessType] = (btStats[idea.businessType] || 0) + 1;
+                }
+            });
+
+            const btContainer = document.getElementById('businessTypeStats');
+            if (Object.keys(btStats).length > 0) {
+                btContainer.innerHTML = Object.entries(btStats)
+                    .sort((a, b) => b[1] - a[1])
+                    .map(([type, count]) => `
+                        <div style="display: flex; justify-content: space-between; padding: 15px; background: white; border-radius: 8px; margin-bottom: 10px;">
+                            <span style="font-weight: 500;">${type}</span>
+                            <span style="background: var(--primary); color: white; padding: 4px 12px; border-radius: 12px; font-size: 14px; font-weight: bold;">${count}</span>
+                        </div>
+                    `).join('');
+            } else {
+                btContainer.innerHTML = '<p style="color: #64748b;">No data available yet</p>';
+            }
+
+            // City stats
+            const cityStats = {};
+            ideas.forEach(idea => {
+                if (idea.city) {
+                    cityStats[idea.city] = (cityStats[idea.city] || 0) + 1;
+                }
+            });
+
+            const cityContainer = document.getElementById('cityStats');
+            if (Object.keys(cityStats).length > 0) {
+                cityContainer.innerHTML = Object.entries(cityStats)
+                    .sort((a, b) => b[1] - a[1])
+                    .map(([city, count]) => `
+                        <div style="display: flex; justify-content: space-between; padding: 15px; background: white; border-radius: 8px; margin-bottom: 10px;">
+                            <span style="font-weight: 500;">${city}</span>
+                            <span style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 4px 12px; border-radius: 12px; font-size: 14px; font-weight: bold;">${count}</span>
+                        </div>
+                    `).join('');
+            } else {
+                cityContainer.innerHTML = '<p style="color: #64748b;">No data available yet</p>';
+            }
+
+            // Department stats
+            const deptStats = {};
+            ideas.forEach(idea => {
+                if (idea.department) {
+                    deptStats[idea.department] = (deptStats[idea.department] || 0) + 1;
+                }
+            });
+
+            const deptContainer = document.getElementById('departmentStats');
+            if (Object.keys(deptStats).length > 0) {
+                deptContainer.innerHTML = Object.entries(deptStats)
+                    .sort((a, b) => b[1] - a[1])
+                    .map(([dept, count]) => `
+                        <div style="display: flex; justify-content: space-between; padding: 15px; background: white; border-radius: 8px; margin-bottom: 10px;">
+                            <span style="font-weight: 500;">${dept}</span>
+                            <span style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 4px 12px; border-radius: 12px; font-size: 14px; font-weight: bold;">${count}</span>
+                        </div>
+                    `).join('');
+            } else {
+                deptContainer.innerHTML = '<p style="color: #64748b;">No data available yet</p>';
+            }
+
+            // Top contributors
+            const contributors = {};
+            ideas.forEach(idea => {
+                const key = `${idea.submitterName}|${idea.department || 'N/A'}|${idea.city}`;
+                contributors[key] = (contributors[key] || 0) + 1;
+            });
+
+            const topContainer = document.getElementById('topContributors');
+            if (Object.keys(contributors).length > 0) {
+                topContainer.innerHTML = Object.entries(contributors)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 10)
+                    .map(([key, count], index) => {
+                        const [name, dept, city] = key.split('|');
+                        return `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px; margin-bottom: 10px;">
+                                <div>
+                                    <div style="font-weight: 500;">${index + 1}. ${name}</div>
+                                    <div style="font-size: 12px; color: #64748b;">${dept} | ${city}</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8px 16px; border-radius: 12px; font-size: 18px; font-weight: bold;">${count}</div>
+                            </div>
+                        `;
+                    }).join('');
+            } else {
+                topContainer.innerHTML = '<p style="color: #64748b;">No contributors yet</p>';
+            }
+        }
+
+        // Update home stats
+        function updateHomeStats() {
+            const ideas = JSON.parse(localStorage.getItem('kaizenIdeas'));
+            document.getElementById('totalIdeas').textContent = ideas.length;
+            document.getElementById('approvedIdeas').textContent = ideas.filter(i => i.status === 'Approved').length;
+            document.getElementById('completedIdeas').textContent = ideas.filter(i => i.status === 'Completed').length;
+        }
+
+        // Show alert
+        function showAlert(message, type) {
+            const container = document.getElementById('alertContainer');
+            const alertClass = type === 'success' ? 'alert-success' : type === 'error' ? 'alert-error' : 'alert-info';
+            container.innerHTML = `<div class="alert ${alertClass}">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // Show settings alert
+        function showSettingsAlert(message, type) {
+            const container = document.getElementById('settingsAlertContainer');
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+            container.innerHTML = `<div class="alert ${alertClass}">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('ideaForm').reset();
+            document.getElementById('categoryOther').classList.remove('active');
+            document.getElementById('impactOther').classList.remove('active');
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize on load
+        window.addEventListener('load', function() {
+            updateHomeStats();
+        });
+    </script>
+</body>
+</html>
+                                  
